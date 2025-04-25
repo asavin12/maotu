@@ -150,7 +150,7 @@ function hideWrongWordsPopup() {
 
 // Gọi API Gemini
 async function callGeminiAPI(prompt, apiKey) {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent?key=${apiKey}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
     try {
         const response = await fetch(url, {
             method: 'POST',
