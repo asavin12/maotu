@@ -52,7 +52,7 @@ const suffixRules = {
         {"suffix": "um", "reason": "Hậu tố -um (trừu tượng, khoa học).", "tip": "Mẹo: Trẻ em ngây thơ, thích màu và chữ!", "example": "Museum"},
         {"suffix": "ma", "reason": "Hậu tố -ma (trừu tượng).", "tip": "Mẹo: Trẻ em ngây thơ, thích màu và chữ!", "example": "Thema"},
         {"suffix": "tum", "reason": "Hậu tố -tum (tập thể).", "tip": "Mẹo: Trẻ em ngây thơ, thích màu và chữ!", "example": "Christentum"},
-        {"suffix": "nis", "reason": "Hậu tố -nis (kết quả).", "tip": "Mẹo: Trẻ em ngây thơ, thích màu và chữ!", "example": "Ergebnis"},
+        {"suffix": "nis", "reason": " Hậu tố -nis (kết quả).", "tip": "Mẹo: Trẻ em ngây thơ, thích màu và chữ!", "example": "Ergebnis"},
         {"suffix": "tel", "reason": "Hậu tố -tel (phân số).", "tip": "Mẹo: Trẻ em ngây thơ, thích màu và chữ!", "example": "Viertel"},
         {"suffix": "ett", "reason": "Hậu tố -ett (vật nhỏ).", "tip": "Mẹo: Trẻ em ngây thơ, thích màu và chữ!", "example": "Ballett"},
         {"suffix": "o", "reason": "Hậu tố -o (vật thể).", "tip": "Mẹo: Trẻ em ngây thơ, thích màu và chữ!", "example": "Auto"},
@@ -423,12 +423,51 @@ async function getNounFromRule(ruleId) {
     }
 }
 
-// Phát âm danh từ
+// Phát âm danh từ bằng tiếng Đức
 function speakNoun(noun) {
+    // Kiểm tra xem Web Speech API có được hỗ trợ không
+    if (!('speechSynthesis' in window)) {
+        showPopup('Lỗi phát âm', 'Trình duyệt không hỗ trợ Web Speech API. Vui lòng sử dụng trình duyệt hiện đại như Chrome hoặc Edge.');
+        return;
+    }
+
+    // Tạo utterance
     const utterance = new SpeechSynthesisUtterance(noun);
-    utterance.lang = 'de-DE';
-    utterance.rate = 0.9;
+    utterance.lang = 'de-DE'; // Cố định ngôn ngữ là tiếng Đức
+    utterance.rate = 0.9; // Tốc độ phát âm
+
+    // Lấy danh sách giọng nói
+    const voices = window.speechSynthesis.getVoices();
+    const germanVoice = voices.find(voice => voice.lang === 'de-DE' || voice.lang.startsWith('de'));
+
+    if (germanVoice) {
+        utterance.voice = germanVoice; // Sử dụng giọng tiếng Đức nếu có
+    } else {
+        showPopup('Cảnh báo phát âm', 'Không tìm thấy giọng tiếng Đức trên thiết bị. Phát âm có thể không chính xác.');
+    }
+
+    // Phát âm
+    window.speechSynthesis.cancel(); // Hủy phát âm đang chạy (nếu có)
     window.speechSynthesis.speak(utterance);
+
+    // Xử lý lỗi phát âm
+    utterance.onerror = (event) => {
+        showPopup('Lỗi phát âm', `Không thể phát âm "${noun}": ${event.error}. Vui lòng kiểm tra cài đặt âm thanh hoặc thử lại.`);
+    };
+}
+
+// Đảm bảo danh sách giọng nói được tải trước
+function loadVoices() {
+    return new Promise((resolve) => {
+        const voices = window.speechSynthesis.getVoices();
+        if (voices.length > 0) {
+            resolve();
+        } else {
+            window.speechSynthesis.onvoiceschanged = () => {
+                resolve();
+            };
+        }
+    });
 }
 
 // Lưu câu trả lời sai
@@ -521,6 +560,9 @@ function checkAnswer() {
 
 // Khởi tạo ứng dụng
 async function init() {
+    // Đảm bảo danh sách giọng nói được tải trước khi khởi tạo
+    await loadVoices();
+
     ruleStack = createRuleStack();
     totalNewQuestions = ruleStack.length; // 61 quy tắc
     updateStats();
