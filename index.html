@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Luyện tập mạo từ tiếng Đức</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="flex items-center justify-center min-h-screen">
+    <div class="card-container p-4 md:p-6 w-full max-w-md mx-2 md:max-w-lg">
+        <h1 class="text-2xl md:text-3xl font-bold text-center mb-4 text-gray-800">Luyện tập mạo từ tiếng Đức</h1>
+        <p id="stats" class="text-base md:text-lg text-center mb-4 text-gray-600">Tổng số câu hỏi: 0 | Đúng: 0 | Sai: 0</p>
+        <div class="vocab-section">
+            <h2>Danh từ</h2>
+            <div class="vocab-word-container">
+                <span id="noun" class="vocab-word">Chưa có</span>
+            </div>
+        </div>
+        <div class="input-section">
+            <label for="answer">Nhập mạo từ (der/die/das):</label>
+            <input id="answer" type="text" class="vocabInput" placeholder="der/die/das" autocomplete="off" autocapitalize="none">
+            <div id="feedback" class="vocabHint"></div>
+        </div>
+        <div class="input-section">
+            <p class="text-base md:text-lg text-center italic mb-4 text-gray-500">Nhấn Enter để trả lời hoặc tiếp tục</p>
+            <div class="flex justify-center gap-4 flex-wrap">
+                <button id="nextBtn" class="check-button">Câu tiếp theo</button>
+                <button id="speakBtn" class="check-button">Nghe lại</button>
+                <button id="viewWrongBtn" class="check-button">Xem từ sai</button>
+                <button id="clearWrongBtn" class="check-button">Xóa lịch sử sai</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup thông báo -->
+    <div id="popup" class="popup hidden">
+        <div class="popup-content">
+            <span id="popupClose" class="close-btn">&times;</span>
+            <h3 id="popupTitle" class="text-xl font-bold text-gray-800 mb-4 text-center"></h3>
+            <p id="popupMessage" class="text-base text-gray-600 mb-6 text-center"></p>
+        </div>
+    </div>
+
+    <!-- Popup danh sách từ sai -->
+    <div id="wrongWordsPopup" class="popup hidden">
+        <div class="popup-content max-h-[60vh]">
+            <span id="wrongWordsPopupClose" class="close-btn">&times;</span>
+            <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">Danh sách từ sai</h3>
+            <div id="wrongWordsList" class="text-base text-gray-600 mb-6 overflow-y-auto"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
