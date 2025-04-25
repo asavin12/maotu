@@ -269,20 +269,20 @@ function generateNounPrompt(ruleId, ruleType, article, ruleData) {
     if (ruleType === 'suffix') {
         const { suffix, example } = ruleData;
         return `
-Đây là chương trình tìm kiếm một danh từ tiếng Đức **thực sự tồn tại** và phổ biến ở trình độ A1-B1, nếu không có từ phù hợp ở trình độ này thì bắt buộc phải đưa ra một từ ở trình độ cao hơn, có giống là "${article}" và kết thúc chính xác bằng ký tự "${suffix}" giúp cho người dùng luyện tập nhớ các quy tắc nhớ giống của danh từ.
+Đây là chương trình tìm kiếm một danh từ tiếng Đức **thực sự tồn tại** và phổ biến ở trình độ A1-B1, nếu không có từ phù hợp ở trình độ này thì bắt buộc phải đưa ra một từ ở trình độ cao hơn, có mạo từ là "${article}" và kết thúc chính xác bằng ký tự "${suffix}" giúp cho người dùng luyện tập nhớ các quy tắc nhớ mạo từ của danh từ.
 Không được tạo từ giả hoặc từ không tồn tại trong tiếng Đức.
-Mô tả lý do vì sao danh từ đó có giống "${article}" và hậu tố đó có ý nghĩa gì.
+Mô tả lý do vì sao danh từ đó có mạo từ "${article}" và hậu tố đó có ý nghĩa gì.
 
 Yêu cầu phản hồi phải hoàn toàn bằng tiếng Việt, không sử dụng lại từ trong ví dụ ("${example}"), gồm:
-- "word": danh từ không chứa giống "${article}", phù hợp yêu cầu đuôi bằng "${suffix}"
-- "article": giống của danh từ trên "${article}"
+- "word": danh từ không bao gồm mạo từ "${article}", phù hợp yêu cầu đuôi bằng "${suffix}(ví dụ:Tisch)"
+- "article": mạo từ của danh từ trên "${article}"
 - "reason": giải thích nhanh bằng tiếng Việt
 - "tip": mẹo ghi nhớ bằng tiếng Việt, sáng tạo, gợi ý cho người học ghi nhớ "${suffix}" thuộc "${article}"
 - "meaning": nghĩa tiếng Việt của danh từ
 
 Phản hồi phải ở định dạng JSON như sau:
 {
-  "word": "chỉ chứa Danh từ không chứa ${article}",
+  "word": "chỉ chứa Danh từ không bao gồm ${article}",
   "article": "${article}",
   "reason": "",
   "tip": "",
@@ -291,20 +291,20 @@ Phản hồi phải ở định dạng JSON như sau:
     } else if (ruleType === 'semantic') {
         const { category, example } = ruleData;
         return `
-Đây là chương trình tìm kiếm một danh từ tiếng Đức **thực sự tồn tại** và phổ biến ở trình độ A1-B1, nếu không có từ phù hợp ở trình độ này thì bắt buộc phải đưa ra một từ ở trình độ cao hơn, có giống là "${article}" và thuộc danh mục "${category}" (ví dụ: "${example}") giúp cho người dùng luyện tập nhớ các quy tắc nhớ giống của danh từ.
+Đây là chương trình tìm kiếm một danh từ tiếng Đức **thực sự tồn tại** và phổ biến ở trình độ A1-B1, nếu không có từ phù hợp ở trình độ này thì bắt buộc phải đưa ra một từ ở trình độ cao hơn, có mạo từ là "${article}" và thuộc danh mục "${category}" (ví dụ: "${example}") giúp cho người dùng luyện tập nhớ các quy tắc nhớ mạo từ của danh từ.
 Không được tạo từ giả hoặc từ không tồn tại trong tiếng Đức.
-Mô tả lý do vì sao danh từ đó thuộc danh mục này và vì sao nó có giống "${article}".
+Mô tả lý do vì sao danh từ đó thuộc danh mục này và vì sao nó có mạo từ "${article}".
 
 Yêu cầu phản hồi phải hoàn toàn bằng tiếng Việt, không sử dụng lại từ trong ví dụ ("${example}"), gồm:
-- "word": danh từ tiếng Đức không chứa giống "${article}", phù hợp với "${category}"
-- "article": giống "${article}"
+- "word": danh từ tiếng Đức không bao gồm mạo từ "${article}", phù hợp với "${category}"
+- "article": mạo từ "${article}"
 - "reason": giải thích nhanh bằng tiếng Việt
 - "tip": mẹo ghi nhớ bằng tiếng Việt, sáng tạo, gợi ý cho người học ghi nhớ "${category}" thuộc "${article}"
 - "meaning": nghĩa tiếng Việt của danh từ
 
 Phản hồi phải ở định dạng JSON như sau:
 {
-  "word": "chỉ chứa Danh từ không chứa ${article}",
+  "word": "chỉ chứa Danh từ không bao gồm ${article}",
   "article": "${article}",
   "reason": "",
   "tip": "",
@@ -321,11 +321,11 @@ function generateVerifyPrompt(ruleId, ruleType, article, ruleData, word, provide
         return `
 Kiểm tra danh từ tiếng Đức "${word}" với mạo từ "${providedArticle}" có hợp lệ không. Danh từ phải:
 - Là danh từ **thực sự tồn tại** trong tiếng Đức, phổ biến ở trình độ A1-B1 (hoặc cao hơn nếu không có từ phù hợp).
-- Có giống là "${article}".
+- Có mạo từ là "${article}".
 - Kết thúc chính xác bằng ký tự "${suffix}".
 - Không trùng với ví dụ "${example}".
 
-Nếu hợp lệ, trả về JSON xác nhận chú ý không được đưa giống vào ${word}:
+Nếu hợp lệ, trả về JSON xác nhận chú ý không được đưa mạo từ vào ${word}:
 {
   "is_valid": true,
   "word": "${word}",
@@ -335,7 +335,7 @@ Nếu hợp lệ, trả về JSON xác nhận chú ý không được đưa gi�
   "meaning": "Nghĩa tiếng Việt"
 }
 
-Nếu không hợp lệ, cung cấp một danh từ đúng thay thế với đầy đủ thông tin chú ý không được đưa giống vào ${word}:
+Nếu không hợp lệ, cung cấp một danh từ đúng thay thế với đầy đủ thông tin chú ý không được đưa mạo từ vào ${word}:
 {
   "is_valid": false,
   "word": "danh từ đúng",
@@ -345,18 +345,18 @@ Nếu không hợp lệ, cung cấp một danh từ đúng thay thế với đ�
   "meaning": "Nghĩa tiếng Việt"
 }
 
-Phản hồi phải bằng tiếng Việt, định dạng JSON chú ý không được đưa giống vào ${word}.
+Phản hồi phải bằng tiếng Việt, định dạng JSON chú ý không được đưa mạo từ vào ${word}.
 `;
     } else if (ruleType === 'semantic') {
         const { category, example } = ruleData;
         return `
 Kiểm tra danh từ tiếng Đức "${word}" với mạo từ "${providedArticle}" có hợp lệ không. Danh từ phải:
 - Là danh từ **thực sự tồn tại** trong tiếng Đức, phổ biến ở trình độ A1-B1 (hoặc cao hơn nếu không có từ phù hợp).
-- Có giống là "${article}".
+- Có mạo từ là "${article}".
 - Thuộc danh mục "${category}" (ví dụ: "${example}").
 - Không trùng với ví dụ "${example}".
 
-Nếu hợp lệ, trả về JSON xác nhận chú ý không được đưa giống vào ${word} :
+Nếu hợp lệ, trả về JSON xác nhận chú ý không được đưa mạo từ vào ${word} :
 {
   "is_valid": true,
   "word": "${word}",
@@ -366,7 +366,7 @@ Nếu hợp lệ, trả về JSON xác nhận chú ý không được đưa gi�
   "meaning": "Nghĩa tiếng Việt"
 }
 
-Nếu không hợp lệ, cung cấp một danh từ đúng thay thế với đầy đủ thông tin chú ý không được đưa giống vào ${word}:
+Nếu không hợp lệ, cung cấp một danh từ đúng thay thế với đầy đủ thông tin chú ý không được đưa mạo từ vào ${word}:
 {
   "is_valid": false,
   "word": "danh từ đúng",
