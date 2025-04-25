@@ -14,7 +14,7 @@ body.no-scroll {
 .card-container {
     background: #fffef0;
     padding: 30px;
-    max-width: 80%;
+    max-width: 90%;
     margin: 0 auto;
     border: 1px solid #d9c8a9;
     border-radius: 5px;
@@ -159,7 +159,7 @@ h1 {
     transform: translateX(-50%);
     z-index: 1000;
     width: 100%;
-    max-width: 400px;
+    max-width: 90%;
     opacity: 0;
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
@@ -201,14 +201,14 @@ h1 {
     position: absolute;
     top: 10px;
     right: 15px;
-    font-size: 24px;
-    color: #4a2c00;
+    font-size: 30px;
+    color: #d11b1b;
     cursor: pointer;
     z-index: 2;
 }
 
 .close-btn:hover {
-    color: #a52a2a;
+    color: #ff0000;
 }
 
 #wrongWordsList {
@@ -256,7 +256,7 @@ h1 {
 /* Máy tính (>768px) */
 @media (min-width: 768px) {
     .card-container {
-        max-width: 576px;
+        max-width: 90%;
         padding: 24px;
     }
 
@@ -289,7 +289,7 @@ h1 {
     }
 
     .popup {
-        max-width: 500px;
+        max-width: 90%;
     }
 
     #wrongWordsList {
@@ -298,7 +298,7 @@ h1 {
 }
 
 /* Di động nhỏ (<360px) */
-@media (max-width: 360px) {
+@media (max-width: 90%) {
     .card-container {
         padding: 12px;
         margin: 4px;
@@ -344,7 +344,7 @@ h1 {
 /* Màn hình lớn (>1024px) */
 @media (min-width: 1024px) {
     .card-container {
-        max-width: 640px;
+        max-width: 90%;;
     }
 
     h1 {
@@ -364,7 +364,7 @@ h1 {
     }
 
     .popup {
-        max-width: 600px;
+        max-width: 90%;
     }
 
     #wrongWordsList {
