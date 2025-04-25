@@ -142,6 +142,21 @@ function showWrongWordsPopup() {
     document.body.classList.add('no-scroll');
 }
 
+// Sự kiện đóng popup khi nhấn ngoài
+document.getElementById('popup').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) {
+        console.log('Clicked outside popup, closing');
+        hidePopup();
+    }
+});
+
+document.getElementById('wrongWordsPopup').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) {
+        console.log('Clicked outside wrongWordsPopup, closing');
+        hideWrongWordsPopup();
+    }
+});
+
 // Ẩn popup danh sách từ sai
 function hideWrongWordsPopup() {
     document.getElementById('wrongWordsPopup').classList.add('hidden');
@@ -274,7 +289,7 @@ Không được tạo từ giả hoặc từ không tồn tại trong tiếng Đ
 Mô tả lý do vì sao danh từ đó có mạo từ "${article}" và hậu tố đó có ý nghĩa gì.
 
 Yêu cầu phản hồi phải hoàn toàn bằng tiếng Việt, không sử dụng lại từ trong ví dụ ("${example}"), gồm:
-- "word": danh từ không bao gồm mạo từ "${article}", phù hợp yêu cầu đuôi bằng "${suffix}(ví dụ:Tisch)"
+- "word": danh từ không bao gồm mạo từ "${article}", phù hợp yêu cầu đuôi bằng "${suffix}(ví dụ: Tisch)"
 - "article": mạo từ của danh từ trên "${article}"
 - "reason": giải thích nhanh bằng tiếng Việt
 - "tip": mẹo ghi nhớ bằng tiếng Việt, sáng tạo, gợi ý cho người học ghi nhớ "${suffix}" thuộc "${article}"
